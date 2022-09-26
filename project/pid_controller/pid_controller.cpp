@@ -23,13 +23,12 @@ void PID::Init(double Kpi, double Kii, double Kdi, double output_lim_maxi, doubl
    m_max_out = output_lim_maxi;
    m_min_out = output_lim_mini;
    m_dt = 1e-10; // Ensure there is not div by zero
-   m_prev_err = 0.0;
 }
 
 
 void PID::UpdateError(double cte) {
    m_prop_err = cte;
-   m_int_err += m_prop_err * m_dt; 
+   m_int_err =  m_int_err + m_prop_err * m_dt; 
    m_dev_err = (m_prop_err - m_prev_err) / m_dt;
    m_prev_err = m_prop_err;
 }

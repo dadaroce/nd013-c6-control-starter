@@ -228,8 +228,8 @@ int main ()
   PID pid_steer = PID();
   PID pid_throttle = PID();
 
-  pid_steer.Init(0.5, 0.02, 0.3, 1.2, -1.2);
-  pid_throttle.Init(0.18, 0.01, 0.1, 1.0, -1.0);
+  pid_steer.Init(0.15,0.0005,0.2,1.2,-1.2);
+  pid_throttle.Init(0.2,0.001,0.02,1.0,-1.0);
 
 
   h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode)
@@ -292,7 +292,7 @@ int main ()
           /**
           * TODO (step 3): uncomment these lines
           **/
-//           // Update the delta time with the previous command
+          // Update the delta time with the previous command
           pid_steer.UpdateDeltaTime(new_delta_time);
 
           // Compute steer error
@@ -304,10 +304,8 @@ int main ()
           /**
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
-          // Compute the angle using the second last and the last positions on the trajectory.
-          double angle = angle_between_points(x_points[x_points.size() - 2], y_points[y_points.size()-2], x_points[x_points.size()-1], y_points[y_points.size()-1]);
+          double angle = angle_between_points(x_points.end()[-2], y_points.end()[-2], x_points.end()[-1], y_points.end()[-1]);
           error_steer = yaw - angle;
-
           /**
           * TODO (step 3): uncomment these lines
           **/
@@ -331,8 +329,8 @@ int main ()
           /**
           * TODO (step 2): uncomment these lines
           **/
-          // Update the delta time with the previous command
-          pid_throttle.UpdateDeltaTime(new_delta_time);
+           // Update the delta time with the previous command
+           pid_throttle.UpdateDeltaTime(new_delta_time);
 
           // Compute error of speed
           double error_throttle;
@@ -340,8 +338,7 @@ int main ()
           * TODO (step 2): compute the throttle error (error_throttle) from the position and the desired speed
           **/
           // modify the following line for step 2
-          // How was explanning on the instructions, the last value of the v_points has the last velocity value
-          error_throttle = velocity - v_points[v_points.size() - 1];
+          error_throttle = velocity - v_points.end()[-1];
 
 
           double throttle_output;
