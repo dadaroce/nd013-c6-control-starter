@@ -14,53 +14,42 @@ public:
    * TODO: Create the PID class
    **/
 
-    /*
-    * Errors
-    */
+    //Errors
+    double m_prop_err;
+    double m_dev_err;
+    double m_int_err;
+    double m_prev_err;
 
-    /*
-    * Coefficients
-    */
+    //Coefficients
+    double m_kp;
+    double m_ki;
+    double m_kd;
 
-    /*
-    * Output limits
-    */
+    //Output limits
+    double m_max_out;
+    double m_min_out;
   
-    /*
-    * Delta time
-    */
+    //Delta time
+    double m_dt;
 
-    /*
-    * Constructor
-    */
+    //Constructor
     PID();
 
-    /*
-    * Destructor.
-    */
+    //Destructor.
     virtual ~PID();
 
-    /*
-    * Initialize PID.
-    */
+    //Initialize PID.
     void Init(double Kp, double Ki, double Kd, double output_lim_max, double output_lim_min);
 
-    /*
-    * Update the PID error variables given cross track error.
-    */
+    //Update the PID error variables given cross track error.
     void UpdateError(double cte);
 
-    /*
-    * Calculate the total PID error.
-    */
+    //Calculate the total PID error.
     double TotalError();
   
-    /*
-    * Update the delta time.
-    */
+    //Update the delta time.
     double UpdateDeltaTime(double new_delta_time);
 };
 
 #endif //PID_CONTROLLER_H
-
 
