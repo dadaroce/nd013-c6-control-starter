@@ -22,7 +22,10 @@ void PID::Init(double Kpi, double Kii, double Kdi, double output_lim_maxi, doubl
    m_kd = Kdi;
    m_max_out = output_lim_maxi;
    m_min_out = output_lim_mini;
-   m_dt = 1e-10; // Ensure there is not div by zero
+   m_int_err = 0.0;
+   m_prev_err = 0.0;
+  
+   m_dt = 1;
 }
 
 
@@ -35,9 +38,10 @@ void PID::UpdateError(double cte) {
 
 double PID::TotalError() {
 
-   double control = m_kp * m_prop_err + m_ki * m_int_err + m_kd * m_dev_err;
+   double control = m_kp * m_prev_err + m_ki * m_int_err + m_kd * m_dev_err;
    control = control > m_max_out ? m_max_out : control;
    control = control < m_min_out ? m_min_out : control;
+   
    return control;
 }
 
