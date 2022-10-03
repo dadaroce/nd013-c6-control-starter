@@ -121,18 +121,18 @@ Answer the following questions:
 
 Once we begin the project and run the CARLA simulator as described in the main README file (without implement contrls and another stuff) the vehicle is fully stopped.
 
-![step1](https://user-images.githubusercontent.com/39452483/192208008-f08cf90e-c88c-4707-a5a6-963f66fa6a2e.png)
+![step1](/step1.png)
 
 ### Throttle Control
 
-![throttle](https://user-images.githubusercontent.com/39452483/192208555-1a983c65-4c90-4683-b823-487609c1fed7.png)
+![throttle](/throttle.png)
 
 As can be seen in the throttle graph, an attempt is made to eliminate the error. However, it cannot be completely eliminated, at least with these parameters. 
 
 Additionally, you can see how the proportional parameter generates that "mirror" effect between the output and the error, provided by a scalar value.
 ### Steer Control
 
-![steering](https://user-images.githubusercontent.com/39452483/192208552-21976941-0ebc-4841-9701-6827cfdeb938.png)
+![steering](/steering.png)
 
 On the other hand, in the steering error graph it can be seen how values close to the constant trigger the output due to the integral parameter of the controller. 
 
