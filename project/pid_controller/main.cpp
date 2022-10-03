@@ -218,19 +218,15 @@ int main ()
   /**
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
-
+  PID pid_steer = PID();
+  pid_steer.Init(0.12, 0.0001, 1.2, 1.2, -1.2);
 
   // initialize pid throttle
   /**
   * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
   **/
-
-  PID pid_steer = PID();
   PID pid_throttle = PID();
-  
-  pid_steer.Init(0.13,0.0006,0.16,1.2,-1.2);
-  pid_throttle.Init(0.2,0.001,0.02,1.0,-1.0);
- 
+  pid_throttle.Init(0.08, 0.01, 0.03, 1.0, -1.0);
 
 
   h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode)
@@ -281,7 +277,6 @@ int main ()
 
           path_planner(x_points, y_points, v_points, yaw, velocity, goal, is_junction, tl_state, spirals_x, spirals_y, spirals_v, best_spirals);
 
-          
           // Save time and compute delta time
           time(&timer);
           new_delta_time = difftime(timer, prev_timer);
@@ -299,16 +294,14 @@ int main ()
 
           // Compute steer error
           double error_steer;
-
-
           double steer_output;
-
           /**
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
-          double angle = angle_between_points(x_position, y_position, x_points[0], y_points[0]);
+          double angle = angle_between_points(x_points.end()[-2], y_points.end()[-2], x_points.end()[-1], y_points.end()[-1]);
+
           error_steer = angle - yaw;
-          std::cout << "Angle: " << angle << " Yaw: " << yaw << std::endl;
+
           /**
           * TODO (step 3): uncomment these lines
           **/
@@ -341,15 +334,13 @@ int main ()
           * TODO (step 2): compute the throttle error (error_throttle) from the position and the desired speed
           **/
           // modify the following line for step 2
-          error_throttle = v_points[0] - velocity;
 
+          error_throttle = v_points.end()[-1] - velocity;
 
           double throttle_output;
           double brake_output;
 
-          /**
-          * TODO (step 2): uncomment these lines
-          **/
+          //(step 2): uncomment these lines
           // Compute control to apply
           pid_throttle.UpdateError(error_throttle);
           double throttle = pid_throttle.TotalError();
